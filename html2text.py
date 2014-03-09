@@ -140,14 +140,6 @@ def element_style(tag, attrs, style_def, parent_style):
         style.update(immediate_style)
     return style
 
-def google_list_style(style):
-    """finds out whether this is an ordered or unordered list"""
-    if 'list-style-type' in style:
-        list_style = style['list-style-type']
-        if list_style in ['disc', 'circle', 'square', 'none']:
-            return 'ul'
-    return 'ol'
-
 def google_has_height(style):
     """check if the style of the element has the 'height' attribute explicitly defined"""
     if 'height' in style:
@@ -525,10 +517,7 @@ class HTML2Text(HTMLParser.HTMLParser):
             if (not self.list) and (not self.lastWasList):
                 self.p()
             if start:
-                if self.google_doc:
-                    list_style = google_list_style(tag_style)
-                else:
-                    list_style = tag
+                list_style = tag
                 numbering_start = list_numbering_start(attrs)
                 self.list.append({'name':list_style, 'num':numbering_start})
             else:
