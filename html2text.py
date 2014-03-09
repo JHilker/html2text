@@ -403,7 +403,10 @@ class HTML2Text(HTMLParser.HTMLParser):
 
         if tag in ['p', 'div']:
             if self.google_doc:
-                if start and google_has_height(tag_style):
+                # Temporary fix for issues with a lack of new lines where they should
+                # be, causes issues with newlines above space indented blocks, which
+                # are interpreted as code blocks
+                if start:# and google_has_height(tag_style):
                     self.p()
                 else:
                     self.soft_br()
