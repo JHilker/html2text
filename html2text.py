@@ -125,12 +125,15 @@ def dumb_css_parser(data):
 
     return elements
 
-def element_style(attrs, style_def, parent_style):
+def element_style(tag, attrs, style_def, parent_style):
     """returns a hash of the 'final' style attributes of the element"""
     style = parent_style.copy()
     if 'class' in attrs:
         for css_class in attrs['class'].split():
-            css_style = style_def['.' + css_class]
+            if '.' + css_class in style_def:
+              css_style = style_def['.' + css_class]
+            elif tag + '.' + css_class in style_def:
+              css_style = style_def[tag + '.' + css_class]
             style.update(css_style)
     if 'style' in attrs:
         immediate_style = dumb_property_dict(attrs['style'])
@@ -390,7 +393,7 @@ class HTML2Text(HTMLParser.HTMLParser):
             if start:
                 if self.tag_stack:
                   parent_style = self.tag_stack[-1][2]
-                tag_style = element_style(attrs, self.style_def, parent_style)
+                tag_style = element_style(tag, attrs, self.style_def, parent_style)
                 self.tag_stack.append((tag, attrs, tag_style))
             else:
                 dummy, attrs, tag_style = self.tag_stack.pop()
