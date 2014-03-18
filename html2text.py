@@ -131,10 +131,9 @@ def element_style(tag, attrs, style_def, parent_style):
     if 'class' in attrs:
         for css_class in attrs['class'].split():
             if '.' + css_class in style_def:
-              css_style = style_def['.' + css_class]
+              style.update(style_def['.' + css_class])
             elif tag + '.' + css_class in style_def:
-              css_style = style_def[tag + '.' + css_class]
-            style.update(css_style)
+              style.update(style_def[tag + '.' + css_class])
     if 'style' in attrs:
         immediate_style = dumb_property_dict(attrs['style'])
         style.update(immediate_style)
