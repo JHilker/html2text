@@ -713,7 +713,7 @@ class HTML2Text(HTMLParser.HTMLParser):
         """calculate the nesting count of google doc lists"""
         nest_count = 0
         if 'margin-left' in style:
-            nest_count = int(style['margin-left'][:-2]) / self.google_list_indent
+            nest_count = int(float(style['margin-left'][:-2])) / self.google_list_indent
         return nest_count
 
 
